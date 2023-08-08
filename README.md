@@ -5,10 +5,10 @@ Install [pytorch](https://pytorch.org/) following the official guide. Then insta
 ```bash
 pip install numpy opencv-python tqdm
 ```
-Download the pretrained DINO model and the sample CETUS dataset from [this folder](https://drive.google.com/drive/folders/1tG0BHuyvPTaWIlSv-sWdJxh9Yh9u-Pic?usp=sharing) and unzip.
+Download the pretrained DINO model and the sample CETUS dataset from [this folder](https://drive.google.com/drive/folders/1tG0BHuyvPTaWIlSv-sWdJxh9Yh9u-Pic?usp=sharing) and unzip. The total setup time should be less than 1h.
 
 ## Training and Inference
-Train the teacher network using only 0.1% of the ground truth labels:
+Train the teacher network using only 0.1% of the ground truth labels. The training takes less than 12h in a single V100 GPU.
 ```bash 
 python train_teacher.py --workers 32 --batchsize 32 --anno_ratio 0.001 --epochs 100
 ```
@@ -18,7 +18,7 @@ Use the teacher network to generate high-quality 3D labels:
 python generate_pseudo_anno.py --sequence SEQ_PATH --method randaugopt --head VIT_HEAD_PATH
 ```
 
-Train the student network on the generated labels:
+Train the student network on the generated labels. The training takes less than 24h in a workstation with 4 V100 GPUs.
 ```bash
 python train_student.py --workers 32 --batchsize 16 --data data/cetus --anno_ratio 0.001 --epochs 100 --pseudo_method randaugopt
 ```
